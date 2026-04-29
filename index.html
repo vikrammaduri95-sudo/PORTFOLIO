@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maduri Vikram — Web Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0e1a;
+    --bg2: #0f1526;
+    --bg3: #151c33;
+    --surface: #1a2240;
+    --border: rgba(100, 160, 255, 0.12);
+    --border-bright: rgba(100, 160, 255, 0.28);
+    --accent: #4f8ef7;
+    --accent2: #00d4aa;
+    --accent3: #f7c44f;
+    --text: #e8edf8;
+    --text2: #8fa3cc;
+    --text3: #4a5f8a;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Outfit', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* GRID BACKGROUND */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(79,142,247,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79,142,247,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  * { position: relative; z-index: 1; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 60px;
+    background: rgba(10,14,26,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--accent2);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-logo span { color: var(--text3); }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text2);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 60px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* glowing orbs */
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(79,142,247,0.12) 0%, transparent 70%);
+    top: -100px; right: -100px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,212,170,0.08) 0%, transparent 70%);
+    bottom: -50px; left: 200px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 80px;
+    align-items: center;
+    max-width: 1200px;
+    width: 100%;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,212,170,0.1);
+    border: 1px solid rgba(0,212,170,0.3);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: 0.1em;
+    margin-bottom: 28px;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent2);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,212,170,0.4); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(0,212,170,0); }
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-name {
+    font-family: var(--sans);
+    font-size: clamp(52px, 7vw, 88px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+
+  .hero-name .first { color: var(--text); }
+  .hero-name .last {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--accent);
+  }
+
+  .hero-role {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0 28px;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  .hero-role span {
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+  }
+
+  .hero-role::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-bright);
+    max-width: 120px;
+  }
+
+  .hero-desc {
+    font-size: 16px;
+    color: var(--text2);
+    line-height: 1.8;
+    max-width: 520px;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.4s ease both;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    padding: 13px 28px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(79,142,247,0.35);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--text2);
+    text-decoration: none;
+    padding: 13px 28px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    border: 1px solid var(--border-bright);
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .btn-secondary:hover {
+    color: var(--text);
+    border-color: var(--accent);
+  }
+
+  /* HERO CARD */
+  .hero-card {
+    background: var(--bg2);
+    border: 1px solid var(--border-bright);
+    border-radius: 16px;
+    padding: 32px;
+    animation: fadeUp 0.8s 0.3s ease both;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(79,142,247,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-red { background: #ff5f57; }
+  .dot-yellow { background: #febc2e; }
+  .dot-green { background: #28c840; }
+
+  .card-terminal-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    margin-left: auto;
+    letter-spacing: 0.05em;
+  }
+
+  .terminal-line {
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 2;
+    color: var(--text2);
+  }
+
+  .terminal-line .prompt { color: var(--accent2); }
+  .terminal-line .cmd { color: var(--accent); }
+  .terminal-line .val { color: var(--accent3); }
+  .terminal-line .str { color: #a8d8a8; }
+  .terminal-line .comment { color: var(--text3); }
+
+  .contact-chips {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text2);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .chip:hover { color: var(--accent); }
+
+  .chip-icon {
+    width: 28px; height: 28px;
+    background: var(--surface);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 100px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 56px;
+  }
+
+  .section-label .num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  .section-label h2 {
+    font-family: var(--sans);
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 200px;
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+
+  .skill-item {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: border-color 0.25s, transform 0.25s, background 0.25s;
+    cursor: default;
+  }
+
+  .skill-item:hover {
+    border-color: var(--accent);
+    background: var(--surface);
+    transform: translateY(-3px);
+  }
+
+  .skill-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .skill-item:nth-child(2) .skill-dot { background: var(--accent2); }
+  .skill-item:nth-child(3) .skill-dot { background: var(--accent3); }
+  .skill-item:nth-child(4) .skill-dot { background: #e879f9; }
+  .skill-item:nth-child(5) .skill-dot { background: #fb923c; }
+  .skill-item:nth-child(6) .skill-dot { background: var(--accent2); }
+
+  .skill-name {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  /* ── EXPERIENCE / TIMELINE ── */
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 10px; top: 8px; bottom: 8px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 48px;
+  }
+
+  .timeline-item:last-child { margin-bottom: 0; }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -36px; top: 8px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 3px rgba(79,142,247,0.2);
+  }
+
+  .timeline-year {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent3);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  .timeline-title {
+    font-family: var(--sans);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .timeline-body {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.7;
+  }
+
+  .timeline-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(79,142,247,0.1);
+    border: 1px solid rgba(79,142,247,0.2);
+    border-radius: 4px;
+    padding: 4px 10px;
+    letter-spacing: 0.04em;
+  }
+
+  .tag.green {
+    color: var(--accent2);
+    background: rgba(0,212,170,0.08);
+    border-color: rgba(0,212,170,0.2);
+  }
+
+  .tag.yellow {
+    color: var(--accent3);
+    background: rgba(247,196,79,0.08);
+    border-color: rgba(247,196,79,0.2);
+  }
+
+  /* ── PROJECT ── */
+  .project-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: start;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 14px 14px 0 0;
+  }
+
+  .project-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 40px rgba(79,142,247,0.1);
+  }
+
+  .project-icon {
+    font-size: 40px;
+    padding: 16px;
+    background: var(--surface);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    line-height: 1;
+  }
+
+  .proj-kicker {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--accent2);
+    margin-bottom: 10px;
+  }
+
+  .proj-title {
+    font-family: var(--sans);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+  }
+
+  .proj-desc {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  /* ── STRENGTHS ── */
+  .strengths-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+  }
+
+  .strength-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 24px;
+    text-align: center;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+
+  .strength-card:hover {
+    border-color: var(--accent2);
+    transform: translateY(-4px);
+  }
+
+  .strength-icon { font-size: 32px; margin-bottom: 14px; }
+
+  .strength-title {
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 48px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    background: var(--bg2);
+  }
+
+  .footer-left .footer-name {
+    font-family: var(--sans);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+
+  .footer-left p {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text3);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 20px;
+  }
+
+  .footer-links a {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text2);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--accent); }
+
+  /* DIVIDER SECTION */
+  .full-bleed-divider {
+    width: 100%;
+    padding: 0;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 60px;
+    padding: 18px 0;
+    animation: marquee 18s linear infinite;
+    white-space: nowrap;
+  }
+
+  .marquee-track span {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--text3);
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .marquee-track span.accent { color: var(--accent); }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* LANGUAGES */
+  .lang-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .lang-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 32px;
+    text-align: center;
+    min-width: 140px;
+  }
+
+  .lang-flag { font-size: 28px; margin-bottom: 10px; }
+  .lang-name { font-family: var(--sans); font-size: 15px; font-weight: 600; }
+  .lang-level { font-family: var(--mono); font-size: 11px; color: var(--accent2); margin-top: 4px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 24px 60px; }
+    .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+    section { padding: 72px 24px; }
+    .project-card { grid-template-columns: 1fr; }
+    footer { padding: 40px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span>~/</span>vikram-portfolio</div>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#training">training</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="about">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge">AVAILABLE FOR OPPORTUNITIES</div>
+      <h1 class="hero-name">
+        <span class="first">MADURI</span>
+        <span class="last">VIKRAM</span>
+      </h1>
+      <div class="hero-role"><span>// WEB DEVELOPER</span></div>
+      <p class="hero-desc">
+        Motivated Electronics and Communication Engineering diploma graduate with hands-on knowledge of Python, web development, and software fundamentals. Eager to start a professional career by applying technical and analytical skills while continuously learning.
+      </p>
+      <div class="hero-actions">
+        <a href="mailto:vikrammaduri95@gmail.com" class="btn-primary">&#9993; Get In Touch</a>
+        <a href="https://www.linkedin.com/in/vikram-maduri-6a9b40349" target="_blank" class="btn-secondary">&#128279; LinkedIn Profile</a>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="hero-card-header">
+        <div class="dot dot-red"></div>
+        <div class="dot dot-yellow"></div>
+        <div class="dot dot-green"></div>
+        <span class="card-terminal-title">profile.json</span>
+      </div>
+      <div class="terminal-line"><span class="prompt">const</span> <span class="cmd">developer</span> = {</div>
+      <div class="terminal-line">&nbsp;&nbsp;<span class="val">name</span>: <span class="str">"Maduri Vikram"</span>,</div>
+      <div class="terminal-line">&nbsp;&nbsp;<span class="val">role</span>: <span class="str">"Web Developer"</span>,</div>
+      <div class="terminal-line">&nbsp;&nbsp;<span class="val">location</span>: <span class="str">"Warangal, India"</span>,</div>
+      <div class="terminal-line">&nbsp;&nbsp;<span class="val">status</span>: <span class="str">"Fresher"</span>,</div>
+      <div class="terminal-line">&nbsp;&nbsp;<span class="val">stack</span>: [<span class="str">"HTML"</span>, <span class="str">"CSS"</span>, <span class="str">"JS"</span>, <span class="str">"Python"</span>],</div>
+      <div class="terminal-line"><span class="comment">};</span></div>
+
+      <div class="contact-chips">
+        <a href="tel:9515462580" class="chip">
+          <div class="chip-icon">&#128222;</div>
+          9515462580
+        </a>
+        <a href="mailto:vikrammaduri95@gmail.com" class="chip">
+          <div class="chip-icon">&#9993;</div>
+          vikrammaduri95@gmail.com
+        </a>
+        <a href="https://www.linkedin.com/in/vikram-maduri-6a9b40349" target="_blank" class="chip">
+          <div class="chip-icon">in</div>
+          linkedin.com/in/vikram-maduri
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MARQUEE DIVIDER -->
+<div class="full-bleed-divider">
+  <div class="marquee-track">
+    <span class="accent">&#10022;</span><span>HTML</span>
+    <span class="accent">&#10022;</span><span>CSS</span>
+    <span class="accent">&#10022;</span><span>JavaScript</span>
+    <span class="accent">&#10022;</span><span>Python</span>
+    <span class="accent">&#10022;</span><span>Responsive Design</span>
+    <span class="accent">&#10022;</span><span>Problem Solving</span>
+    <span class="accent">&#10022;</span><span>Communication</span>
+    <span class="accent">&#10022;</span><span>Web Development</span>
+    <span class="accent">&#10022;</span><span>HTML</span>
+    <span class="accent">&#10022;</span><span>CSS</span>
+    <span class="accent">&#10022;</span><span>JavaScript</span>
+    <span class="accent">&#10022;</span><span>Python</span>
+    <span class="accent">&#10022;</span><span>Responsive Design</span>
+    <span class="accent">&#10022;</span><span>Problem Solving</span>
+    <span class="accent">&#10022;</span><span>Communication</span>
+    <span class="accent">&#10022;</span><span>Web Development</span>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">
+    <span class="num">01 —</span>
+    <h2>Skills</h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-item"><div class="skill-dot"></div><div class="skill-name">HTML, CSS & JavaScript</div></div>
+    <div class="skill-item"><div class="skill-dot"></div><div class="skill-name">Python Programming</div></div>
+    <div class="skill-item"><div class="skill-dot"></div><div class="skill-name">Responsive Web Design</div></div>
+    <div class="skill-item"><div class="skill-dot"></div><div class="skill-name">Problem Solving & Debugging</div></div>
+    <div class="skill-item"><div class="skill-dot"></div><div class="skill-name">Basic Algorithm Knowledge</div></div>
+    <div class="skill-item"><div class="skill-dot"></div><div class="skill-name">Communication & Teamwork</div></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">
+    <span class="num">02 —</span>
+    <h2>Projects</h2>
+  </div>
+  <div class="project-card">
+    <div>
+      <p class="proj-kicker">// ACADEMIC PROJECT · 2026</p>
+      <h3 class="proj-title">Citizen Complaint Reporting Website</h3>
+      <p class="proj-desc">
+        Designed and built a full citizen complaint reporting platform that allows users to submit, track, and manage civic complaints. Built entirely from scratch using core web technologies — HTML, CSS, and JavaScript — demonstrating strong foundational web development skills.
+      </p>
+      <div class="timeline-tags">
+        <span class="tag">HTML</span>
+        <span class="tag">CSS</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag green">Team Project</span>
+        <span class="tag yellow">2026</span>
+      </div>
+    </div>
+    <div class="project-icon">&#127758;</div>
+  </div>
+</section>
+
+<!-- TRAINING & CERTIFICATIONS -->
+<section id="training">
+  <div class="section-label">
+    <span class="num">03 —</span>
+    <h2>Training & Achievements</h2>
+  </div>
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-year">2026</div>
+      <div class="timeline-title">Certifications</div>
+      <div class="timeline-body">
+        Completed multiple professional development courses: Public Speaking, Communication Skills Training, Spoken English, and HTML/CSS/JavaScript Web Development.
+      </div>
+      <div class="timeline-tags">
+        <span class="tag">Public Speaking</span>
+        <span class="tag">Communication Skills</span>
+        <span class="tag green">Spoken English</span>
+        <span class="tag">Web Development</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-year">2025</div>
+      <div class="timeline-title">&#127942; 2nd Place — ACT Showcase Event</div>
+      <div class="timeline-body">
+        Secured 2nd Place for Best Performance in Group Discussion at the ACT Showcase Event, demonstrating strong communication and leadership under pressure.
+      </div>
+      <div class="timeline-tags">
+        <span class="tag yellow">&#127942; Achievement</span>
+        <span class="tag">Group Discussion</span>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-year">Co-Curricular</div>
+      <div class="timeline-title">Employability Skills Activities</div>
+      <div class="timeline-body">
+        Participated in role plays, group discussions, debates, JAM sessions, and "Conquer the Stage" presentations. Developed strong communication, confidence, and teamwork skills through these interactive sessions.
+      </div>
+      <div class="timeline-tags">
+        <span class="tag">Debates</span>
+        <span class="tag">JAM Sessions</span>
+        <span class="tag green">Public Speaking</span>
+        <span class="tag">Teamwork</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- STRENGTHS -->
+<section id="strengths">
+  <div class="section-label">
+    <span class="num">04 —</span>
+    <h2>Strengths</h2>
+  </div>
+  <div class="strengths-grid">
+    <div class="strength-card">
+      <div class="strength-icon">&#9889;</div>
+      <div class="strength-title">Quick Learner</div>
+    </div>
+    <div class="strength-card">
+      <div class="strength-icon">&#129504;</div>
+      <div class="strength-title">Problem Solving</div>
+    </div>
+    <div class="strength-card">
+      <div class="strength-icon">&#128293;</div>
+      <div class="strength-title">Self-Motivated</div>
+    </div>
+    <div class="strength-card">
+      <div class="strength-icon">&#127807;</div>
+      <div class="strength-title">Adaptability</div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION & LANGUAGES -->
+<section id="education">
+  <div class="section-label">
+    <span class="num">05 —</span>
+    <h2>Education & Languages</h2>
+  </div>
+
+  <div class="timeline" style="margin-bottom: 56px;">
+    <div class="timeline-item">
+      <div class="timeline-year">2024</div>
+      <div class="timeline-title">Diploma — Electronics & Communication Engineering</div>
+      <div class="timeline-body">Government Junior College, Warangal, Telangana</div>
+      <div class="timeline-tags">
+        <span class="tag">ECE</span>
+        <span class="tag green">Diploma</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-bottom: 28px;">
+    <span class="num" style="font-size: 11px; color: var(--text3);">Languages</span>
+  </div>
+  <div class="lang-grid">
+    <div class="lang-card">
+      <div class="lang-flag">&#127988;</div>
+      <div class="lang-name">English</div>
+      <div class="lang-level">Proficient</div>
+    </div>
+    <div class="lang-card">
+      <div class="lang-flag">&#127470;&#127475;</div>
+      <div class="lang-name">Telugu</div>
+      <div class="lang-level">Native</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-left">
+    <p class="footer-name">Maduri Vikram</p>
+    <p>Web Developer · Warangal, India</p>
+  </div>
+  <div class="footer-links">
+    <a href="mailto:vikrammaduri95@gmail.com">&#9993; Email</a>
+    <a href="tel:9515462580">&#128222; Call</a>
+    <a href="https://www.linkedin.com/in/vikram-maduri-6a9b40349" target="_blank">in LinkedIn</a>
+  </div>
+  <p style="font-family: var(--mono); font-size: 11px; color: var(--text3);">&#169; 2025 · Built with HTML & CSS</p>
+</footer>
+
+</body>
+</html>
