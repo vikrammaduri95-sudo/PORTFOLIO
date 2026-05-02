@@ -1,735 +1,486 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maduri Vikram — Web Developer</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MADURI VIKRAM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #0a0e1a;
-    --bg2: #0f1526;
-    --bg3: #151c33;
-    --surface: #1a2240;
-    --border: rgba(100, 160, 255, 0.12);
-    --border-bright: rgba(100, 160, 255, 0.28);
-    --accent: #4f8ef7;
-    --accent2: #00d4aa;
-    --accent3: #f7c44f;
-    --text: #e8edf8;
-    --text2: #8fa3cc;
-    --text3: #4a5f8a;
-    --mono: 'JetBrains Mono', monospace;
-    --sans: 'Outfit', sans-serif;
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #16161f;
+    --border: #1e1e2e;
+    --accent: #00d4aa;
+    --accent2: #7c6af7;
+    --text: #e8e8f0;
+    --muted: #6e6e8a;
+    --tag-bg: #1a1a2e;
   }
-
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: var(--sans);
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 16px;
-    line-height: 1.7;
+    line-height: 1.6;
     overflow-x: hidden;
   }
 
-  /* NOISE OVERLAY */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.5;
-  }
-
-  /* GRID BACKGROUND */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(79,142,247,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(79,142,247,0.03) 1px, transparent 1px);
-    background-size: 48px 48px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  * { position: relative; z-index: 1; }
-
-  /* ── NAV ── */
+  /* NAV */
   nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px 60px;
-    background: rgba(10,14,26,0.85);
-    backdrop-filter: blur(20px);
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px;
   }
-
-  .nav-logo {
-    font-family: var(--mono);
-    font-size: 14px;
-    color: var(--accent2);
+  .nav-brand {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
     letter-spacing: 0.05em;
   }
-
-  .nav-logo span { color: var(--text3); }
-
-  .nav-links {
-    display: flex;
-    gap: 32px;
-    list-style: none;
-  }
-
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
   .nav-links a {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
     text-decoration: none;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.05em;
     transition: color 0.2s;
   }
-
   .nav-links a:hover { color: var(--accent); }
 
-  /* ── HERO ── */
+  /* HERO */
   .hero {
     min-height: 100vh;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
     align-items: center;
-    padding: 120px 60px 80px;
+    padding: 8rem 6rem 4rem;
     position: relative;
     overflow: hidden;
   }
-
-  /* glowing orbs */
   .hero::before {
     content: '';
     position: absolute;
+    top: -200px; right: -200px;
     width: 600px; height: 600px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(79,142,247,0.12) 0%, transparent 70%);
-    top: -100px; right: -100px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .hero::after {
-    content: '';
-    position: absolute;
-    width: 400px; height: 400px;
-    border-radius: 50%;
     background: radial-gradient(circle, rgba(0,212,170,0.08) 0%, transparent 70%);
-    bottom: -50px; left: 200px;
     pointer-events: none;
-    z-index: 0;
   }
-
-  .hero-inner {
-    display: grid;
-    grid-template-columns: 1fr 380px;
-    gap: 80px;
-    align-items: center;
-    max-width: 1200px;
-    width: 100%;
-  }
-
   .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+    display: inline-flex; align-items: center; gap: 0.5rem;
     background: rgba(0,212,170,0.1);
-    border: 1px solid rgba(0,212,170,0.3);
-    border-radius: 100px;
-    padding: 6px 16px;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent2);
-    letter-spacing: 0.1em;
-    margin-bottom: 28px;
-    animation: fadeDown 0.6s ease both;
+    border: 1px solid rgba(0,212,170,0.25);
+    border-radius: 2rem;
+    padding: 0.35rem 0.9rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
   }
-
   .hero-badge::before {
     content: '';
-    width: 7px; height: 7px;
+    width: 6px; height: 6px;
+    background: var(--accent);
     border-radius: 50%;
-    background: var(--accent2);
     animation: pulse 2s infinite;
   }
-
   @keyframes pulse {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,212,170,0.4); }
-    50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(0,212,170,0); }
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.3); }
   }
-
-  @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-12px); }
-    to { opacity: 1; transform: translateY(0); }
+  .hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.5rem;
   }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  .hero-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
   }
-
-  .hero-name {
-    font-family: var(--sans);
-    font-size: clamp(52px, 7vw, 88px);
-    font-weight: 900;
-    line-height: 0.95;
-    letter-spacing: -0.04em;
-    animation: fadeUp 0.7s 0.1s ease both;
-  }
-
-  .hero-name .first { color: var(--text); }
-  .hero-name .last {
-    color: transparent;
-    -webkit-text-stroke: 1.5px var(--accent);
-  }
-
-  .hero-role {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 20px 0 28px;
-    animation: fadeUp 0.7s 0.2s ease both;
-  }
-
-  .hero-role span {
-    font-family: var(--mono);
-    font-size: 14px;
-    color: var(--accent);
-    letter-spacing: 0.12em;
-  }
-
-  .hero-role::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border-bright);
-    max-width: 120px;
-  }
-
+  .hero-sub span { color: var(--accent2); }
   .hero-desc {
-    font-size: 16px;
-    color: var(--text2);
-    line-height: 1.8;
-    max-width: 520px;
-    animation: fadeUp 0.7s 0.3s ease both;
+    color: var(--muted);
+    font-size: 0.95rem;
+    max-width: 480px;
+    margin-bottom: 2rem;
+    line-height: 1.7;
   }
-
-  .hero-actions {
-    display: flex;
-    gap: 16px;
-    margin-top: 36px;
-    flex-wrap: wrap;
-    animation: fadeUp 0.7s 0.4s ease both;
-  }
-
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--accent);
-    color: #fff;
-    text-decoration: none;
-    padding: 13px 28px;
-    font-family: var(--sans);
-    font-size: 14px;
-    font-weight: 600;
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.65rem 1.4rem;
     border-radius: 6px;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(79,142,247,0.35);
-  }
-
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: transparent;
-    color: var(--text2);
-    text-decoration: none;
-    padding: 13px 28px;
-    font-family: var(--sans);
-    font-size: 14px;
+    font-size: 0.85rem;
     font-weight: 500;
-    border-radius: 6px;
-    border: 1px solid var(--border-bright);
-    transition: color 0.2s, border-color 0.2s;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer; border: none;
   }
-
-  .btn-secondary:hover {
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+  }
+  .btn-primary:hover { background: #00efc0; transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
     color: var(--text);
-    border-color: var(--accent);
   }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
 
-  /* HERO CARD */
-  .hero-card {
-    background: var(--bg2);
-    border: 1px solid var(--border-bright);
-    border-radius: 16px;
-    padding: 32px;
-    animation: fadeUp 0.8s 0.3s ease both;
-    position: relative;
+  /* CODE CARD */
+  .code-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
     overflow: hidden;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
   }
-
-  .hero-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(79,142,247,0.06) 0%, transparent 60%);
-    pointer-events: none;
+  .code-card-header {
+    background: var(--surface2);
+    padding: 0.7rem 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.72rem;
+    color: var(--muted);
   }
-
-  .hero-card-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 24px;
-  }
-
   .dot { width: 10px; height: 10px; border-radius: 50%; }
-  .dot-red { background: #ff5f57; }
-  .dot-yellow { background: #febc2e; }
-  .dot-green { background: #28c840; }
+  .dot.r { background: #ff5f57; }
+  .dot.y { background: #febc2e; }
+  .dot.g { background: #28c840; }
+  .code-body { padding: 1.5rem; line-height: 1.9; }
+  .code-key { color: var(--accent2); }
+  .code-str { color: var(--accent); }
+  .code-arr { color: #f8c555; }
+  .code-punc { color: var(--muted); }
 
-  .card-terminal-title {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text3);
-    margin-left: auto;
-    letter-spacing: 0.05em;
+  /* CONTACT ROW */
+  .contact-row {
+    display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 2rem;
   }
-
-  .terminal-line {
-    font-family: var(--mono);
-    font-size: 12px;
-    line-height: 2;
-    color: var(--text2);
-  }
-
-  .terminal-line .prompt { color: var(--accent2); }
-  .terminal-line .cmd { color: var(--accent); }
-  .terminal-line .val { color: var(--accent3); }
-  .terminal-line .str { color: #a8d8a8; }
-  .terminal-line .comment { color: var(--text3); }
-
-  .contact-chips {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 24px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
-  }
-
-  .chip {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text2);
+  .contact-item {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
     text-decoration: none;
     transition: color 0.2s;
   }
+  .contact-item:hover { color: var(--accent); }
 
-  .chip:hover { color: var(--accent); }
-
-  .chip-icon {
-    width: 28px; height: 28px;
+  /* TICKER */
+  .ticker-wrap {
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 0.8rem 0;
     background: var(--surface);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    flex-shrink: 0;
   }
-
-  /* ── SECTIONS ── */
-  section {
-    padding: 100px 60px;
-    max-width: 1200px;
-    margin: 0 auto;
+  .ticker-track {
+    display: flex; gap: 3rem;
+    animation: ticker 25s linear infinite;
+    width: max-content;
+    white-space: nowrap;
   }
-
-  .section-label {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 56px;
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
   }
-
-  .section-label .num {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--accent);
+  .ticker-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
     letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
+  .ticker-item span { color: var(--accent); margin-right: 0.5rem; }
 
-  .section-label h2 {
-    font-family: var(--sans);
-    font-size: 36px;
+  /* SECTIONS */
+  section { padding: 6rem 6rem; }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .section-label::before { content: '// '; color: var(--muted); }
+  h2 {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
     font-weight: 700;
     letter-spacing: -0.02em;
+    margin-bottom: 3rem;
   }
 
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-    max-width: 200px;
-  }
-
-  /* ── SKILLS ── */
+  /* SKILLS GRID */
   .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 16px;
+    gap: 1rem;
   }
-
-  .skill-item {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px 22px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    transition: border-color 0.25s, transform 0.25s, background 0.25s;
-    cursor: default;
-  }
-
-  .skill-item:hover {
-    border-color: var(--accent);
+  .skill-card {
     background: var(--surface);
-    transform: translateY(-3px);
-  }
-
-  .skill-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    flex-shrink: 0;
-  }
-
-  .skill-item:nth-child(2) .skill-dot { background: var(--accent2); }
-  .skill-item:nth-child(3) .skill-dot { background: var(--accent3); }
-  .skill-item:nth-child(4) .skill-dot { background: #e879f9; }
-  .skill-item:nth-child(5) .skill-dot { background: #fb923c; }
-  .skill-item:nth-child(6) .skill-dot { background: var(--accent2); }
-
-  .skill-name {
-    font-family: var(--sans);
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text);
-  }
-
-  /* ── EXPERIENCE / TIMELINE ── */
-  .timeline {
-    position: relative;
-    padding-left: 40px;
-  }
-
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 10px; top: 8px; bottom: 8px;
-    width: 1px;
-    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
-  }
-
-  .timeline-item {
-    position: relative;
-    margin-bottom: 48px;
-  }
-
-  .timeline-item:last-child { margin-bottom: 0; }
-
-  .timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -36px; top: 8px;
-    width: 12px; height: 12px;
-    border-radius: 50%;
-    background: var(--accent);
-    border: 2px solid var(--bg);
-    box-shadow: 0 0 0 3px rgba(79,142,247,0.2);
-  }
-
-  .timeline-year {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent3);
-    letter-spacing: 0.1em;
-    margin-bottom: 8px;
-  }
-
-  .timeline-title {
-    font-family: var(--sans);
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-
-  .timeline-body {
-    font-size: 14px;
-    color: var(--text2);
-    line-height: 1.7;
-  }
-
-  .timeline-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 14px;
-  }
-
-  .tag {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent);
-    background: rgba(79,142,247,0.1);
-    border: 1px solid rgba(79,142,247,0.2);
-    border-radius: 4px;
-    padding: 4px 10px;
-    letter-spacing: 0.04em;
-  }
-
-  .tag.green {
-    color: var(--accent2);
-    background: rgba(0,212,170,0.08);
-    border-color: rgba(0,212,170,0.2);
-  }
-
-  .tag.yellow {
-    color: var(--accent3);
-    background: rgba(247,196,79,0.08);
-    border-color: rgba(247,196,79,0.2);
-  }
-
-  /* ── PROJECT ── */
-  .project-card {
-    background: var(--bg2);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 40px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 24px;
-    align-items: start;
-    transition: border-color 0.25s, box-shadow 0.25s;
-    position: relative;
+    border-radius: 8px;
+    padding: 1.2rem 1.4rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .skill-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .skill-card-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.25rem; }
+  .skill-card-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-top: 0.6rem;
     overflow: hidden;
   }
-
-  .project-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
+  .skill-card-fill {
+    height: 100%;
     background: linear-gradient(90deg, var(--accent), var(--accent2));
-    border-radius: 14px 14px 0 0;
+    border-radius: 2px;
   }
 
-  .project-card:hover {
-    border-color: var(--accent);
-    box-shadow: 0 0 40px rgba(79,142,247,0.1);
-  }
-
-  .project-icon {
-    font-size: 40px;
-    padding: 16px;
+  /* PROJECTS */
+  .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .project-card {
     background: var(--surface);
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    line-height: 1;
-  }
-
-  .proj-kicker {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    color: var(--accent2);
-    margin-bottom: 10px;
-  }
-
-  .proj-title {
-    font-family: var(--sans);
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 12px;
-    letter-spacing: -0.01em;
-  }
-
-  .proj-desc {
-    font-size: 14px;
-    color: var(--text2);
-    line-height: 1.7;
-    margin-bottom: 20px;
-  }
-
-  /* ── STRENGTHS ── */
-  .strengths-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 20px;
-  }
-
-  .strength-card {
-    background: var(--bg2);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 28px 24px;
-    text-align: center;
-    transition: border-color 0.25s, transform 0.25s;
-  }
-
-  .strength-card:hover {
-    border-color: var(--accent2);
-    transform: translateY(-4px);
-  }
-
-  .strength-icon { font-size: 32px; margin-bottom: 14px; }
-
-  .strength-title {
-    font-family: var(--sans);
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 48px 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 24px;
-    background: var(--bg2);
-  }
-
-  .footer-left .footer-name {
-    font-family: var(--sans);
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 4px;
-  }
-
-  .footer-left p {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text3);
-  }
-
-  .footer-links {
-    display: flex;
-    gap: 20px;
-  }
-
-  .footer-links a {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text2);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .footer-links a:hover { color: var(--accent); }
-
-  /* DIVIDER SECTION */
-  .full-bleed-divider {
-    width: 100%;
-    padding: 0;
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
+    padding: 2rem;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
     overflow: hidden;
   }
+  .project-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .project-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .project-card:hover::after { opacity: 1; }
+  .project-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .project-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+  .project-desc {
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+  }
+  .tag-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+  .tag {
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.2rem 0.55rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
 
-  .marquee-track {
-    display: flex;
-    gap: 60px;
-    padding: 18px 0;
-    animation: marquee 18s linear infinite;
+  /* TRAINING */
+  .training-grid { display: grid; gap: 1.5rem; }
+  .training-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.8rem 2rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    transition: border-color 0.2s;
+  }
+  .training-card:hover { border-color: var(--accent); }
+  .training-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    padding-top: 0.2rem;
     white-space: nowrap;
   }
+  .training-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.01em;
+  }
+  .training-desc {
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  .training-responsibilities {
+    margin-top: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .training-responsibilities li {
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.65;
+    padding-left: 1.2rem;
+    position: relative;
+    list-style: none;
+    margin-bottom: 0.3rem;
+  }
+  .training-responsibilities li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--accent);
+    font-size: 0.75rem;
+  }
 
-  .marquee-track span {
-    font-family: var(--mono);
-    font-size: 12px;
-    letter-spacing: 0.15em;
-    color: var(--text3);
+  /* BSNL highlight card */
+  .training-card.bsnl-card {
+    border-color: rgba(0,212,170,0.3);
+    background: linear-gradient(135deg, var(--surface) 0%, rgba(0,212,170,0.04) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .training-card.bsnl-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+  .bsnl-badge {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: rgba(0,212,170,0.12);
+    border: 1px solid rgba(0,212,170,0.3);
+    border-radius: 2rem;
+    padding: 0.25rem 0.7rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    flex-shrink: 0;
+    margin-bottom: 0.75rem;
+    width: fit-content;
+  }
+  .bsnl-badge::before {
+    content: '';
+    width: 5px; height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
   }
 
-  .marquee-track span.accent { color: var(--accent); }
-
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+  /* STRENGTHS */
+  .strengths-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
   }
-
-  /* LANGUAGES */
-  .lang-grid {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-
-  .lang-card {
-    background: var(--bg2);
+  .strength-card {
+    background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px 32px;
+    border-radius: 8px;
+    padding: 1.5rem;
     text-align: center;
-    min-width: 140px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .strength-card:hover { border-color: var(--accent2); transform: translateY(-2px); }
+  .strength-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .strength-name { font-size: 0.9rem; font-weight: 600; }
+
+  /* EDUCATION */
+  .edu-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    display: flex; gap: 2rem; align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+  .edu-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  .edu-degree { font-size: 1rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .edu-inst { color: var(--muted); font-size: 0.88rem; }
+  .lang-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+  .lang-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.6rem 1.2rem;
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.88rem;
+  }
+  .lang-level {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
   }
 
-  .lang-flag { font-size: 28px; margin-bottom: 10px; }
-  .lang-name { font-family: var(--sans); font-size: 15px; font-weight: 600; }
-  .lang-level { font-family: var(--mono); font-size: 11px; color: var(--accent2); margin-top: 4px; }
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 6rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-name { font-size: 0.9rem; font-weight: 600; }
+  .footer-sub { color: var(--muted); font-size: 0.8rem; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a {
+    color: var(--muted); text-decoration: none; font-size: 0.8rem;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--accent); }
+  .copy { color: var(--muted); font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; }
 
-  /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
-    nav { padding: 16px 24px; }
-    .nav-links { display: none; }
-    .hero { padding: 100px 24px 60px; }
-    .hero-inner { grid-template-columns: 1fr; gap: 48px; }
-    section { padding: 72px 24px; }
-    .project-card { grid-template-columns: 1fr; }
-    footer { padding: 40px 24px; }
+    .hero { grid-template-columns: 1fr; padding: 7rem 2rem 3rem; gap: 2rem; }
+    section { padding: 4rem 2rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    footer { padding: 2rem; flex-direction: column; align-items: flex-start; }
+    nav { padding: 0 1rem; }
+    .nav-links { gap: 1rem; }
   }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <div class="nav-logo"><span>~/</span>vikram-portfolio</div>
+  <div class="nav-brand">~/vikram-portfolio</div>
   <ul class="nav-links">
     <li><a href="#about">about</a></li>
     <li><a href="#skills">skills</a></li>
@@ -740,184 +491,243 @@
 </nav>
 
 <!-- HERO -->
-<div class="hero" id="about">
-  <div class="hero-inner">
-    <div class="hero-text">
-      <div class="hero-badge">AVAILABLE FOR OPPORTUNITIES</div>
-      <h1 class="hero-name">
-        <span class="first">MADURI</span>
-        <span class="last">VIKRAM</span>
-      </h1>
-      <div class="hero-role"><span>// WEB DEVELOPER</span></div>
-      <p class="hero-desc">
-        Motivated Electronics and Communication Engineering diploma graduate with hands-on knowledge of Python, web development, and software fundamentals. Eager to start a professional career by applying technical and analytical skills while continuously learning.
-      </p>
-      <div class="hero-actions">
-        <a href="mailto:vikrammaduri95@gmail.com" class="btn-primary">&#9993; Get In Touch</a>
-        <a href="https://www.linkedin.com/in/vikram-maduri-6a9b40349" target="_blank" class="btn-secondary">&#128279; LinkedIn Profile</a>
-      </div>
+<section class="hero" id="about" style="padding-top:8rem;">
+  <div>
+    <div class="hero-badge">Available for Opportunities</div>
+    <h1>MADURI<br>VIKRAM</h1>
+    <p class="hero-sub">// <span>WEB DEVELOPER</span></p>
+    <p class="hero-desc">B.Tech Electronics and Communication Engineering graduate (2022) with hands-on knowledge of Python, web development, and software fundamentals. Eager to start a professional career by applying technical and analytical skills while continuously learning.</p>
+    <div class="hero-actions">
+      <a href="mailto:vikrammaduri95@gmail.com" class="btn btn-primary">✉ Get In Touch</a>
+      <a href="https://www.linkedin.com/in/vikram-maduri-6a9b40349" class="btn btn-outline" target="_blank">🔗 LinkedIn Profile</a>
     </div>
-
-    <div class="hero-card">
-      <div class="hero-card-header">
-        <div class="dot dot-red"></div>
-        <div class="dot dot-yellow"></div>
-        <div class="dot dot-green"></div>
-        <span class="card-terminal-title">profile.json</span>
-      </div>
-      <div class="terminal-line"><span class="prompt">const</span> <span class="cmd">developer</span> = {</div>
-      <div class="terminal-line">&nbsp;&nbsp;<span class="val">name</span>: <span class="str">"Maduri Vikram"</span>,</div>
-      <div class="terminal-line">&nbsp;&nbsp;<span class="val">role</span>: <span class="str">"Web Developer"</span>,</div>
-      <div class="terminal-line">&nbsp;&nbsp;<span class="val">location</span>: <span class="str">"Warangal, India"</span>,</div>
-      <div class="terminal-line">&nbsp;&nbsp;<span class="val">status</span>: <span class="str">"Fresher"</span>,</div>
-      <div class="terminal-line">&nbsp;&nbsp;<span class="val">stack</span>: [<span class="str">"HTML"</span>, <span class="str">"CSS"</span>, <span class="str">"JS"</span>, <span class="str">"Python"</span>],</div>
-      <div class="terminal-line"><span class="comment">};</span></div>
-
-      <div class="contact-chips">
-        <a href="tel:9515462580" class="chip">
-          <div class="chip-icon">&#128222;</div>
-          9515462580
-        </a>
-        <a href="mailto:vikrammaduri95@gmail.com" class="chip">
-          <div class="chip-icon">&#9993;</div>
-          vikrammaduri95@gmail.com
-        </a>
-        <a href="https://www.linkedin.com/in/vikram-maduri-6a9b40349" target="_blank" class="chip">
-          <div class="chip-icon">in</div>
-          linkedin.com/in/vikram-maduri
-        </a>
-      </div>
+    <div class="contact-row">
+      <a href="tel:9515462580" class="contact-item">📞 9515462580</a>
+      <a href="mailto:vikrammaduri95@gmail.com" class="contact-item">✉ vikrammaduri95@gmail.com</a>
+      <a href="https://www.linkedin.com/in/vikram-maduri-6a9b40349" class="contact-item" target="_blank">in linkedin.com/in/vikram-maduri</a>
     </div>
   </div>
-</div>
+  <div class="code-card">
+    <div class="code-card-header">
+      <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+      <span style="margin-left:0.5rem;">profile.json</span>
+    </div>
+    <div class="code-body">
+      <span class="code-key">const</span> <span style="color:#c9d1d9;">developer</span> <span class="code-punc">= {</span><br>
+      &nbsp;&nbsp;<span class="code-key">name</span><span class="code-punc">:</span> <span class="code-str">"Maduri Vikram"</span><span class="code-punc">,</span><br>
+      &nbsp;&nbsp;<span class="code-key">role</span><span class="code-punc">:</span> <span class="code-str">"Web Developer"</span><span class="code-punc">,</span><br>
+      &nbsp;&nbsp;<span class="code-key">location</span><span class="code-punc">:</span> <span class="code-str">"Warangal, India"</span><span class="code-punc">,</span><br>
+      &nbsp;&nbsp;<span class="code-key">status</span><span class="code-punc">:</span> <span class="code-str">"Fresher"</span><span class="code-punc">,</span><br>
+      &nbsp;&nbsp;<span class="code-key">education</span><span class="code-punc">:</span> <span class="code-str">"B.Tech ECE, 2022"</span><span class="code-punc">,</span><br>
+      &nbsp;&nbsp;<span class="code-key">stack</span><span class="code-punc">:</span> <span class="code-arr">["HTML", "CSS", "JS", "Python"]</span><span class="code-punc">,</span><br>
+      <span class="code-punc">};</span>
+    </div>
+  </div>
+</section>
 
-<!-- MARQUEE DIVIDER -->
-<div class="full-bleed-divider">
-  <div class="marquee-track">
-    <span class="accent">&#10022;</span><span>HTML</span>
-    <span class="accent">&#10022;</span><span>CSS</span>
-    <span class="accent">&#10022;</span><span>JavaScript</span>
-    <span class="accent">&#10022;</span><span>Python</span>
-    <span class="accent">&#10022;</span><span>Responsive Design</span>
-    <span class="accent">&#10022;</span><span>Problem Solving</span>
-    <span class="accent">&#10022;</span><span>Communication</span>
-    <span class="accent">&#10022;</span><span>Web Development</span>
-    <span class="accent">&#10022;</span><span>HTML</span>
-    <span class="accent">&#10022;</span><span>CSS</span>
-    <span class="accent">&#10022;</span><span>JavaScript</span>
-    <span class="accent">&#10022;</span><span>Python</span>
-    <span class="accent">&#10022;</span><span>Responsive Design</span>
-    <span class="accent">&#10022;</span><span>Problem Solving</span>
-    <span class="accent">&#10022;</span><span>Communication</span>
-    <span class="accent">&#10022;</span><span>Web Development</span>
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="ticker-item"><span>✦</span>HTML</span>
+    <span class="ticker-item"><span>✦</span>CSS</span>
+    <span class="ticker-item"><span>✦</span>JavaScript</span>
+    <span class="ticker-item"><span>✦</span>Python</span>
+    <span class="ticker-item"><span>✦</span>Responsive Design</span>
+    <span class="ticker-item"><span>✦</span>Problem Solving</span>
+    <span class="ticker-item"><span>✦</span>Communication</span>
+    <span class="ticker-item"><span>✦</span>Web Development</span>
+    <span class="ticker-item"><span>✦</span>Networking</span>
+    <span class="ticker-item"><span>✦</span>Telecom Systems</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item"><span>✦</span>HTML</span>
+    <span class="ticker-item"><span>✦</span>CSS</span>
+    <span class="ticker-item"><span>✦</span>JavaScript</span>
+    <span class="ticker-item"><span>✦</span>Python</span>
+    <span class="ticker-item"><span>✦</span>Responsive Design</span>
+    <span class="ticker-item"><span>✦</span>Problem Solving</span>
+    <span class="ticker-item"><span>✦</span>Communication</span>
+    <span class="ticker-item"><span>✦</span>Web Development</span>
+    <span class="ticker-item"><span>✦</span>Networking</span>
+    <span class="ticker-item"><span>✦</span>Telecom Systems</span>
   </div>
 </div>
 
 <!-- SKILLS -->
 <section id="skills">
-  <div class="section-label">
-    <span class="num">01 —</span>
-    <h2>Skills</h2>
-  </div>
+  <div class="section-label">01</div>
+  <h2>Skills</h2>
   <div class="skills-grid">
-    <div class="skill-item"><div class="skill-dot"></div><div class="skill-name">HTML, CSS & JavaScript</div></div>
-    <div class="skill-item"><div class="skill-dot"></div><div class="skill-name">Python Programming</div></div>
-    <div class="skill-item"><div class="skill-dot"></div><div class="skill-name">Responsive Web Design</div></div>
-    <div class="skill-item"><div class="skill-dot"></div><div class="skill-name">Problem Solving & Debugging</div></div>
-    <div class="skill-item"><div class="skill-dot"></div><div class="skill-name">Basic Algorithm Knowledge</div></div>
-    <div class="skill-item"><div class="skill-dot"></div><div class="skill-name">Communication & Teamwork</div></div>
+    <div class="skill-card">
+      <div class="skill-card-name">HTML, CSS & JavaScript</div>
+      <div class="skill-card-bar"><div class="skill-card-fill" style="width:85%"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-name">Python Programming</div>
+      <div class="skill-card-bar"><div class="skill-card-fill" style="width:75%"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-name">Responsive Web Design</div>
+      <div class="skill-card-bar"><div class="skill-card-fill" style="width:80%"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-name">Problem Solving & Debugging</div>
+      <div class="skill-card-bar"><div class="skill-card-fill" style="width:70%"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-name">Basic Algorithm Knowledge</div>
+      <div class="skill-card-bar"><div class="skill-card-fill" style="width:65%"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-name">Communication & Teamwork</div>
+      <div class="skill-card-bar"><div class="skill-card-fill" style="width:90%"></div></div>
+    </div>
   </div>
 </section>
 
 <!-- PROJECTS -->
 <section id="projects">
-  <div class="section-label">
-    <span class="num">02 —</span>
-    <h2>Projects</h2>
-  </div>
-  <div class="project-card">
-    <div>
-      <p class="proj-kicker">// ACADEMIC PROJECT · 2026</p>
-      <h3 class="proj-title">Citizen Complaint Reporting Website</h3>
-      <p class="proj-desc">
-        Designed and built a full citizen complaint reporting platform that allows users to submit, track, and manage civic complaints. Built entirely from scratch using core web technologies — HTML, CSS, and JavaScript — demonstrating strong foundational web development skills.
-      </p>
-      <div class="timeline-tags">
+  <div class="section-label">02</div>
+  <h2>Projects</h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-meta">// Academic Project · 2026</div>
+      <div class="project-title">Citizen Complaint Reporting Website</div>
+      <p class="project-desc">Designed and built a full citizen complaint reporting platform that allows users to submit, track, and manage civic complaints. Built entirely from scratch using core web technologies — HTML, CSS, and JavaScript — demonstrating strong foundational web development skills.</p>
+      <div class="tag-row">
         <span class="tag">HTML</span>
         <span class="tag">CSS</span>
         <span class="tag">JavaScript</span>
-        <span class="tag green"><a href="https://vikrammaduri95-sudo.github.io/RURAL-GOVERNANCE-PROJECT/" target="_blank" style="color: inherit; text-decoration: none;">View Project</a></span>
-        <span class="tag yellow">2026</span>
       </div>
+      <a href="https://vikrammaduri95-sudo.github.io/RURAL-GOVERNANCE-PROJECT/" target="_blank" class="btn btn-outline" style="font-size:0.8rem; padding:0.5rem 1rem;">View Project →</a>
     </div>
-    <div class="project-icon">&#127758;</div>
-  </div>
-
-  <div class="project-card">
-    <div>
-      <p class="proj-kicker">// LANDING PAGE · 2026</p>
-      <h3 class="proj-title">ZoomRide - Landing Page</h3>
-      <p class="proj-desc">
-        A modern landing page for ZoomRide, created using AI-assisted tools to accelerate development. Showcases responsive design and engaging user interface with GenAI integration for enhanced productivity and rapid prototyping.
-      </p>
-      <div class="timeline-tags">
+    <div class="project-card">
+      <div class="project-meta">// Landing Page · 2026</div>
+      <div class="project-title">ZoomRide</div>
+      <p class="project-desc">A modern landing page for ZoomRide, created using AI-assisted tools to accelerate development. Showcases responsive design and engaging user interface with GenAI integration for enhanced productivity and rapid prototyping.</p>
+      <div class="tag-row">
         <span class="tag">HTML</span>
         <span class="tag">CSS</span>
         <span class="tag">GenAI</span>
-        <span class="tag blue"><a href="https://vikrammaduri95-sudo.github.io/zoomride/" target="_blank" style="color: inherit; text-decoration: none;">View Project</a></span>
-        <span class="tag yellow">2026</span>
       </div>
+      <a href="https://vikrammaduri95-sudo.github.io/zoomride/" target="_blank" class="btn btn-outline" style="font-size:0.8rem; padding:0.5rem 1rem;">View Project →</a>
     </div>
-    <div class="project-icon">🚗</div>
   </div>
-
 </section>
 
-<!-- TRAINING & CERTIFICATIONS -->
+<!-- TRAINING -->
 <section id="training">
-  <div class="section-label">
-    <span class="num">03 —</span>
-    <h2>Training & Achievements</h2>
-  </div>
-  <div class="timeline">
+  <div class="section-label">03</div>
+  <h2>Training &amp; Achievements</h2>
+  <div class="training-grid">
 
-    <div class="timeline-item">
-      <div class="timeline-year">2026</div>
-      <div class="timeline-title">Certifications</div>
-      <div class="timeline-body">
-        Completed multiple professional development courses: Public Speaking, Communication Skills Training, Spoken English, and HTML/CSS/JavaScript Web Development.
-      </div>
-      <div class="timeline-tags">
-        <span class="tag">Public Speaking</span>
-        <span class="tag">Communication Skills</span>
-        <span class="tag green">Spoken English</span>
-        <span class="tag">Web Development</span>
+    <!-- BSNL — NEW CARD -->
+    <div class="training-card bsnl-card">
+      <div class="training-year">Nov 2018<br>– May 2019</div>
+      <div>
+        <div class="bsnl-badge">Industrial Training</div>
+        <div class="training-title">Bharat Sanchar Nigam Limited (BSNL)</div>
+        <div class="training-desc">Completed an industrial training program at BSNL, one of India's largest government-owned telecom providers, gaining real-world exposure to live telecommunication infrastructure and operations.</div>
+        <ul class="training-responsibilities">
+          <li>Developed a strong understanding of system workflows, technical processes, and real-world operational environments</li>
+          <li>Enhanced analytical thinking and problem-solving skills through observation of live telecom systems and troubleshooting practices</li>
+          <li>Gained hands-on exposure to networking concepts, communication systems, and technical infrastructure management</li>
+        </ul>
+        <div class="tag-row">
+          <span class="tag">Telecom Systems</span>
+          <span class="tag">Networking</span>
+          <span class="tag">Infrastructure</span>
+          <span class="tag">Troubleshooting</span>
+          <span class="tag">Communication Systems</span>
+        </div>
       </div>
     </div>
 
-    <div class="timeline-item">
-      <div class="timeline-year">2025</div>
-      <div class="timeline-title">&#127942; 2nd Place — ACT Showcase Event</div>
-      <div class="timeline-body">
-        Secured 2nd Place for Best Performance in Group Discussion at the ACT Showcase Event, demonstrating strong communication and leadership under pressure.
-      </div>
-      <div class="timeline-tags">
-        <span class="tag yellow">&#127942; Achievement</span>
-        <span class="tag">Group Discussion</span>
+    <!-- Certifications -->
+    <div class="training-card">
+      <div class="training-year">2026</div>
+      <div>
+        <div class="training-title">Certifications</div>
+        <div class="training-desc">Completed multiple professional development courses: Public Speaking, Communication Skills Training, Spoken English, and HTML/CSS/JavaScript Web Development.</div>
+        <div class="tag-row">
+          <span class="tag">Public Speaking</span>
+          <span class="tag">Communication Skills</span>
+          <span class="tag">Spoken English</span>
+          <span class="tag">Web Development</span>
+        </div>
       </div>
     </div>
 
-    <div class="timeline-item">
-      <div class="timeline-year">Co-Curricular</div>
-      <div class="timeline-title">Employability Skills Activities</div>
-      <div class="timeline-body">
-        Participated in role plays, group discussions, debates, JAM sessions, and "Conquer the Stage" presentations. Developed strong communication, confidence, and teamwork skills through these interactive sessions.
+    <!-- VIBA -->
+    <div class="training-card" style="border-color:rgba(0,212,170,0.25);">
+      <div class="training-year">2022</div>
+      <div>
+        <div class="training-title">🥈 2nd Place — VIBA Competition</div>
+        <div class="training-desc">Secured 2nd Place at the VIBA Competition organized by the <strong style="color:var(--text);">Telangana State Innovation Cell (TSIC), Government of Telangana</strong> — a state-level platform recognizing innovation and entrepreneurial thinking.</div>
+        <div class="tag-row">
+          <span class="tag">🏆 State Level</span>
+          <span class="tag">Innovation</span>
+          <span class="tag">TSIC</span>
+          <span class="tag">Govt. of Telangana</span>
+        </div>
       </div>
-      <div class="timeline-tags">
-        <span class="tag">Debates</span>
-        <span class="tag">JAM Sessions</span>
-        <span class="tag green">Public Speaking</span>
-        <span class="tag">Teamwork</span>
+    </div>
+
+    <!-- Green Hackathon -->
+    <div class="training-card" style="border-color:rgba(124,106,247,0.25);">
+      <div class="training-year">2022</div>
+      <div>
+        <div class="training-title">🏅 4th Rank — Green Hackathon</div>
+        <div class="training-desc">Ranked 4th at the Green Hackathon conducted by the <strong style="color:var(--text);">National Institute for Micro, Small and Medium Enterprises (NI-MSME), Hyderabad</strong> — a national-level competition focused on sustainable and innovative solutions.</div>
+        <div class="tag-row">
+          <span class="tag">🏆 National Level</span>
+          <span class="tag">Hackathon</span>
+          <span class="tag">NI-MSME</span>
+          <span class="tag">Sustainability</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACT -->
+    <div class="training-card">
+      <div class="training-year">2025</div>
+      <div>
+        <div class="training-title">🥈 2nd Place — Group Discussion, ACT Showcase Event</div>
+        <div class="training-desc">Secured 2nd Place for Best Performance in Group Discussion at the ACT Showcase Event organized by <strong style="color:var(--text);">Edunet Foundation</strong>, demonstrating strong communication and leadership under pressure.</div>
+        <div class="tag-row">
+          <span class="tag">🏆 Achievement</span>
+          <span class="tag">Group Discussion</span>
+          <span class="tag">Edunet Foundation</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Volleyball -->
+    <div class="training-card">
+      <div class="training-year">2019</div>
+      <div>
+        <div class="training-title">🏐 1st Place — Inter-College Volleyball Tournament</div>
+        <div class="training-desc">Won 1st Place at the Inter-College Volleyball Tournament hosted by <strong style="color:var(--text);">VMR Polytechnic</strong>, showcasing teamwork, athletic discipline, and leadership on the court.</div>
+        <div class="tag-row">
+          <span class="tag">🏆 1st Place</span>
+          <span class="tag">Volleyball</span>
+          <span class="tag">Sports</span>
+          <span class="tag">Teamwork</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Co-Curricular -->
+    <div class="training-card">
+      <div class="training-year">Co-Curricular</div>
+      <div>
+        <div class="training-title">Employability Skills Activities</div>
+        <div class="training-desc">Participated in role plays, group discussions, debates, JAM sessions, and "Conquer the Stage" presentations. Developed strong communication, confidence, and teamwork skills through these interactive sessions.</div>
+        <div class="tag-row">
+          <span class="tag">Debates</span>
+          <span class="tag">JAM Sessions</span>
+          <span class="tag">Public Speaking</span>
+          <span class="tag">Teamwork</span>
+        </div>
       </div>
     </div>
 
@@ -925,79 +735,76 @@
 </section>
 
 <!-- STRENGTHS -->
-<section id="strengths">
-  <div class="section-label">
-    <span class="num">04 —</span>
-    <h2>Strengths</h2>
-  </div>
+<section>
+  <div class="section-label">04</div>
+  <h2>Strengths</h2>
   <div class="strengths-grid">
     <div class="strength-card">
-      <div class="strength-icon">&#9889;</div>
-      <div class="strength-title">Quick Learner</div>
+      <div class="strength-icon">⚡</div>
+      <div class="strength-name">Quick Learner</div>
     </div>
     <div class="strength-card">
-      <div class="strength-icon">&#129504;</div>
-      <div class="strength-title">Problem Solving</div>
+      <div class="strength-icon">🧠</div>
+      <div class="strength-name">Problem Solving</div>
     </div>
     <div class="strength-card">
-      <div class="strength-icon">&#128293;</div>
-      <div class="strength-title">Self-Motivated</div>
+      <div class="strength-icon">🔥</div>
+      <div class="strength-name">Self-Motivated</div>
     </div>
     <div class="strength-card">
-      <div class="strength-icon">&#127807;</div>
-      <div class="strength-title">Adaptability</div>
+      <div class="strength-icon">🌿</div>
+      <div class="strength-name">Adaptability</div>
     </div>
   </div>
 </section>
 
-<!-- EDUCATION & LANGUAGES -->
-<section id="education">
-  <div class="section-label">
-    <span class="num">05 —</span>
-    <h2>Education & Languages</h2>
-  </div>
-
-  <div class="timeline" style="margin-bottom: 56px;">
-    <div class="timeline-item">
-      <div class="timeline-year">2024</div>
-      <div class="timeline-title">Diploma — Electronics & Communication Engineering</div>
-      <div class="timeline-body">Government Junior College, Warangal, Telangana</div>
-      <div class="timeline-tags">
+<!-- EDUCATION -->
+<section id="contact">
+  <div class="section-label">05</div>
+  <h2>Education &amp; Languages</h2>
+  <div class="edu-card" style="border-color: rgba(124,106,247,0.35); background: linear-gradient(135deg, var(--surface) 0%, rgba(124,106,247,0.04) 100%); position:relative; overflow:hidden;">
+    <div style="position:absolute; top:0; left:0; right:0; height:2px; background: linear-gradient(90deg, var(--accent2), var(--accent));"></div>
+    <div class="edu-year">2022</div>
+    <div>
+      <div class="edu-degree">B.Tech — Electronics &amp; Communication Engineering</div>
+      <div class="edu-inst">University College of Engineering Kothagudem, Telangana</div>
+      <div style="margin-top:0.4rem; font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:var(--accent);">Percentage: 69%</div>
+      <div class="tag-row" style="margin-top:0.75rem;">
+        <span class="tag">B.Tech</span>
         <span class="tag">ECE</span>
-        <span class="tag green">Diploma</span>
+        <span class="tag">Electronics</span>
+        <span class="tag">Communication</span>
       </div>
     </div>
   </div>
-
-  <div class="section-label" style="margin-bottom: 28px;">
-    <span class="num" style="font-size: 11px; color: var(--text3);">Languages</span>
+  <div class="edu-card">
+    <div class="edu-year">2024</div>
+    <div>
+      <div class="edu-degree">Diploma — Electronics &amp; Communication Engineering</div>
+      <div class="edu-inst">VMR Polytechnic, Warangal, Telangana</div>
+      <div class="tag-row" style="margin-top:0.75rem;">
+        <span class="tag">ECE</span>
+        <span class="tag">Diploma</span>
+      </div>
+    </div>
   </div>
-  <div class="lang-grid">
-    <div class="lang-card">
-      <div class="lang-flag">&#127988;</div>
-      <div class="lang-name">English</div>
-      <div class="lang-level">Proficient</div>
-    </div>
-    <div class="lang-card">
-      <div class="lang-flag">&#127470;&#127475;</div>
-      <div class="lang-name">Telugu</div>
-      <div class="lang-level">Native</div>
-    </div>
+  <div class="lang-row">
+    <div class="lang-pill">🏴 English <span class="lang-level">Proficient</span></div>
+    <div class="lang-pill">🇮🇳 Telugu <span class="lang-level">Native</span></div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer id="contact">
-  <div class="footer-left">
-    <p class="footer-name">Maduri Vikram</p>
-    <p>Web Developer · Warangal, India</p>
+<footer>
+  <div>
+    <div class="footer-name">Maduri Vikram</div>
+    <div class="footer-sub">Web Developer · Warangal, India</div>
   </div>
   <div class="footer-links">
-    <a href="mailto:vikrammaduri95@gmail.com">&#9993; Email</a>
-    <a href="tel:9515462580">&#128222; Call</a>
+    <a href="mailto:vikrammaduri95@gmail.com">✉ Email</a>
+    <a href="tel:9515462580">📞 Call</a>
     <a href="https://www.linkedin.com/in/vikram-maduri-6a9b40349" target="_blank">in LinkedIn</a>
   </div>
-  <p style="font-family: var(--mono); font-size: 11px; color: var(--text3);">&#169; 2025 · Built with HTML & CSS</p>
+  <div class="copy">© 2025 · Built with HTML &amp; CSS</div>
 </footer>
 
 </body>
